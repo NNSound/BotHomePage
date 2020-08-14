@@ -18,9 +18,76 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script data-ad-client="ca-pub-5517920503384931" async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    <script type="text/javascript">
+        var ws;
+        function init() {
+            // Connect to Web Socket
+            ws = new WebSocket("ws://localhost:9001/");
+            // Set event handlers.
+            ws.onopen = function (e) {
+                checkChannel()
+                // console.log(e.data)
+            };
+            ws.onmessage = function (e) {
+
+                try {
+                    data = JSON.parse(e.data);
+                } catch (e) {
+                    return false;
+                }
+
+                if (data['job'] == 'channelStatus') {
+                    updateStatus(data['chennel'])
+                }
+
+            };
+            ws.onclose = function () {
+            };
+            ws.onerror = function (e) {
+                // console.log(e)
+            };
+        }
+
+        // ws.send(input.value);
+
+        function onCloseClick() {
+            ws.close();
+        }
+
+        function checkChannel() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var channel = url.searchParams.get("channel");
+            console.log(channel);
+
+            data = {
+                job:"channelStatus",
+                server: channel
+            };
+            ws.send(JSON.stringify(data));
+
+            setTimeout(checkChannel, 60000);
+        }
+
+        function updateStatus(data) {
+            for (var i = 0; i < data.length; i++) {
+                var ids = "channel_" + (i + 1);
+                // console.log("update" + ids);                
+                
+                document.getElementById(ids).classList.remove('text-danger');
+                document.getElementById(ids).classList.remove('text-success');
+                if (data[i] == 1) {
+                    document.getElementById(ids).classList.add('text-success');
+                } else {
+                    document.getElementById(ids).classList.add('text-danger');
+                }
+            }
+        }
+    </script>
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="init();">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -33,13 +100,13 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=alissa">Alissa 在線情況</a>
+                        <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=Alissa">Alissa 在線情況</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=bebhinn">Bebhinn 在線情況</a>
+                        <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=Bebhinn">Bebhinn 在線情況</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=nao">Nao 在線情況</a>
+                        <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=Nao">Nao 在線情況</a>
                     </li>
                 </ul>
             </div>
@@ -64,27 +131,27 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>Channel 1 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 2 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 3 <i class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 1 <i id="channel_1" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 2 <i id="channel_2" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 3 <i id="channel_3" class="fas fa-circle text-danger px-4"></i></td>
                             </tr>
                             <tr>
-                                <td>Channel 4 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 5 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 6 <i class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 4 <i id="channel_4" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 5 <i id="channel_5" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 6 <i id="channel_6" class="fas fa-circle text-danger px-4"></i></td>
                             </tr>
                             <tr>
-                                <td>Channel 7 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 8 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 9 <i class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 7 <i id="channel_7" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 8 <i id="channel_8" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 9 <i id="channel_9" class="fas fa-circle text-danger px-4"></i></td>
                             </tr>
                             <tr>
-                                <td>Channel 10 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 11 <i class="fas fa-circle text-danger px-4"></i></td>
-                                <td>Channel 12 <i class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 10 <i id="channel_10" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 11 <i id="channel_11" class="fas fa-circle text-danger px-4"></i></td>
+                                <td>Channel 12 <i id="channel_12" class="fas fa-circle text-danger px-4"></i></td>
                             </tr>
                             <tr>
-                                <td>Channel 13 <i class="fas fa-circle text-success px-4"></i></td>
+                                <td>Channel 13 <i id="channel_13" class="fas fa-circle text-success px-4"></i></td>
                                 <td></td>
                                 <td></td>
                             </tr>
