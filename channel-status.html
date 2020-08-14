@@ -19,72 +19,6 @@
     <script data-ad-client="ca-pub-5517920503384931" async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
-    <script type="text/javascript">
-        var ws;
-        function init() {
-            // Connect to Web Socket
-            ws = new WebSocket("ws://localhost:9001/");
-            // Set event handlers.
-            ws.onopen = function (e) {
-                checkChannel()
-                // console.log(e.data)
-            };
-            ws.onmessage = function (e) {
-
-                try {
-                    data = JSON.parse(e.data);
-                } catch (e) {
-                    return false;
-                }
-
-                if (data['job'] == 'channelStatus') {
-                    updateStatus(data['chennel'])
-                }
-
-            };
-            ws.onclose = function () {
-            };
-            ws.onerror = function (e) {
-                // console.log(e)
-            };
-        }
-
-        // ws.send(input.value);
-
-        function onCloseClick() {
-            ws.close();
-        }
-
-        function checkChannel() {
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var channel = url.searchParams.get("channel");
-            console.log(channel);
-
-            data = {
-                job:"channelStatus",
-                server: channel
-            };
-            ws.send(JSON.stringify(data));
-
-            setTimeout(checkChannel, 60000);
-        }
-
-        function updateStatus(data) {
-            for (var i = 0; i < data.length; i++) {
-                var ids = "channel_" + (i + 1);
-                // console.log("update" + ids);                
-                
-                document.getElementById(ids).classList.remove('text-danger');
-                document.getElementById(ids).classList.remove('text-success');
-                if (data[i] == 1) {
-                    document.getElementById(ids).classList.add('text-success');
-                } else {
-                    document.getElementById(ids).classList.add('text-danger');
-                }
-            }
-        }
-    </script>
 </head>
 
 <body id="page-top" onload="init();">
@@ -128,6 +62,7 @@
                 
                 </div>
                 <div class="col-lg-8 mb-4">
+                    <h2 id="serverName"></h2>
                     <table class="table">
                         <tbody>
                             <tr>
@@ -151,7 +86,7 @@
                                 <td>Channel 12 <i id="channel_12" class="fas fa-circle text-danger px-4"></i></td>
                             </tr>
                             <tr>
-                                <td>Channel 13 <i id="channel_13" class="fas fa-circle text-success px-4"></i></td>
+                                <td>Channel 13 <i id="channel_13" class="fas fa-circle text-danger px-4"></i></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -198,6 +133,77 @@
     <!-- Custom JavaScript for this theme -->
     <script src="static/js/scrolling-nav.js"></script>
 
+        <script type="text/javascript">
+
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var channel = url.searchParams.get("channel");
+            var ws;
+
+            document.getElementById("serverName").innerText = channel
+
+            function init() {
+                // Connect to Web Socket
+                ws = new WebSocket("ws://localhost:9001/");
+                // Set event handlers.
+                ws.onopen = function (e) {
+                    checkChannel()
+                    // console.log(e.data)
+                };
+                ws.onmessage = function (e) {
+
+                    try {
+                        data = JSON.parse(e.data);
+                    } catch (e) {
+                        return false;
+                    }
+
+                    if (data['job'] == 'channelStatus') {
+                        updateStatus(data['chennel'])
+                    }
+
+                };
+                ws.onclose = function () {
+                };
+                ws.onerror = function (e) {
+                    // console.log(e)
+                };
+            }
+
+            // ws.send(input.value);
+
+            function onCloseClick() {
+                ws.close();
+            }
+
+            function checkChannel() {
+
+                //console.log(channel);
+
+                data = {
+                    job: "channelStatus",
+                    server: channel
+                };
+                ws.send(JSON.stringify(data));
+
+                setTimeout(checkChannel, 60000);
+            }
+
+            function updateStatus(data) {
+                for (var i = 0; i < data.length; i++) {
+                    var ids = "channel_" + (i + 1);
+                    // console.log("update" + ids);                
+
+                    document.getElementById(ids).classList.remove('text-danger');
+                    document.getElementById(ids).classList.remove('text-success');
+                    if (data[i] == 1) {
+                        document.getElementById(ids).classList.add('text-success');
+                    } else {
+                        document.getElementById(ids).classList.add('text-danger');
+                    }
+                }
+            }
+        </script>
 </body>
 
 </html>
