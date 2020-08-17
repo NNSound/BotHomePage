@@ -67,6 +67,7 @@
         }
 
         td > div {
+            white-space:nowrap;
             display: inline-block;
             width: 86px;
         }
@@ -247,7 +248,9 @@
         var channel = url.searchParams.get("channel");
         var ws;
         var task;
-        document.getElementById("serverName").innerText = channel
+
+        channelLang = {"Bebhinn": "貝婷", "Alissa": "愛麗莎", "Nao": "娜歐" };
+        document.getElementById("serverName").innerText = channel + ' - ' + channelLang[channel]
 
         document.getElementById("3row").style.display = "block";
 
@@ -273,6 +276,8 @@
 
             };
             ws.onclose = function () {
+                console.log("連線中斷")
+                updateStatus([0,0,0,0,0,0,0,0,0,0,0,0,0])
             };
             ws.onerror = function (e) {
                 // console.log(e)
@@ -296,28 +301,19 @@
             }
             // console.log("send job")
             ws.send(JSON.stringify(data));
-            ws.send(JSON.stringify(data));
-            ws.send(JSON.stringify(data));
 
             task = setTimeout(checkChannel, 60000);
         }
 
         function updateStatus(data) {
             for (var i = 0; i < data.length; i++) {
-                var ids = ".channel_" + (i + 1);
-                // console.log("update" + ids);                
-                // console.log("update" + ids);                
-                // console.log("update" + ids);                
+                var ids = ".channel_" + (i + 1);              
 
                 $(ids).removeClass(["text-danger", "text-success"])
-                // document.getElementById(ids).classList.remove('text-danger');
-                // document.getElementById(ids).classList.remove('text-success');
                 if (data[i] == 1) {
                     $(ids).addClass("text-success")
-                    // document.getElementById(ids).classList.add('text-success');
                 } else {
                     $(ids).addClass("text-danger")
-                    // document.getElementById(ids).classList.add('text-danger');
                 }
             }
         }
