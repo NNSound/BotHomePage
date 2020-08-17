@@ -139,12 +139,12 @@
             var url = new URL(url_string);
             var channel = url.searchParams.get("channel");
             var ws;
-
+            var task;
             document.getElementById("serverName").innerText = channel
 
             function init() {
                 // Connect to Web Socket
-                ws = new WebSocket("ws://localhost:9001/");
+                ws = new WebSocket("ws://mabi-websocket.herokuapp.com/channelStatus");
                 // Set event handlers.
                 ws.onopen = function (e) {
                     checkChannel()
@@ -170,12 +170,6 @@
                 };
             }
 
-            // ws.send(input.value);
-
-            function onCloseClick() {
-                ws.close();
-            }
-
             function checkChannel() {
 
                 //console.log(channel);
@@ -184,9 +178,17 @@
                     job: "channelStatus",
                     server: channel
                 };
-                ws.send(JSON.stringify(data));
 
-                setTimeout(checkChannel, 60000);
+                if (ws.readyState === WebSocket.CLOSED) {
+                    console.log("reconnect server")
+                    clearTimeout(task);
+                    init()
+                    return
+                }
+                // console.log("send job")
+                ws.send(JSON.stringify(data));                
+
+                task = setTimeout(checkChannel, 60000);
             }
 
             function updateStatus(data) {
