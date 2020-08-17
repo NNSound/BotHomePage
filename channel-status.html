@@ -144,7 +144,7 @@
 
             function init() {
                 // Connect to Web Socket
-                ws = new WebSocket("ws://mabi-websocket.herokuapp.com/channelStatus");
+                ws = new WebSocket("wss://mabi-websocket.herokuapp.com/channelStatus");
                 // Set event handlers.
                 ws.onopen = function (e) {
                     checkChannel()
