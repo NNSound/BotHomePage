@@ -69,7 +69,7 @@
         td > div {
             white-space:nowrap;
             display: inline-block;
-            width: 86px;
+            min-width: 86px;
         }
     </style>
 
@@ -147,8 +147,7 @@
                                 </tr>
                                 <tr>
                                     <td><div>Channel 13 </div><i class="fas fa-circle text-danger px-4 channel_13"></i></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colspan=2><div class="connect-message">Unconnected</div><i class="fas fa-circle text-danger px-4 connect-light"></i></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -195,6 +194,11 @@
                                 </tr>
                                 <tr>
                                     <td><div>Channel 13 </div><i class="fas fa-circle text-danger px-4 channel_13"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="connect-message">Unconnected</div><i class="fas fa-circle text-danger px-4 connect-light"></i>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -259,6 +263,9 @@
             ws = new WebSocket("wss://mabi-websocket.herokuapp.com/channelStatus");
             // Set event handlers.
             ws.onopen = function (e) {
+                $(".connect-message").text('Connect')
+                $(".connect-light").removeClass(["text-danger", "text-warning"])
+                $(".connect-light").addClass("text-success")
                 checkChannel()
                 // console.log(e.data)
             };
@@ -276,11 +283,16 @@
 
             };
             ws.onclose = function () {
-                console.log("連線中斷")
-                updateStatus([0,0,0,0,0,0,0,0,0,0,0,0,0])
+                // console.log("連線中斷")
+                $(".connect-message").text('Connect Fail')
+                $(".connect-light").removeClass(["text-danger", "text-success"])
+                $(".connect-light").addClass("text-warning")
             };
             ws.onerror = function (e) {
-                // console.log(e)
+                updateStatus([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+                $(".connect-message").text('Connect Error')
+                $(".connect-light").removeClass(["text-warning", "text-success"])
+                $(".connect-light").addClass("text-danger")
             };
         }
 
@@ -294,7 +306,8 @@
             };
 
             if (ws.readyState === WebSocket.CLOSED) {
-                console.log("reconnect server")
+                // console.log("reconnect server")
+                $(".connect-message").text('Reconnect...')
                 clearTimeout(task);
                 init()
                 return
