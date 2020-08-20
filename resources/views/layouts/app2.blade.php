@@ -13,10 +13,10 @@
     <title>{{ config('app.name', 'NN\'s home page') }}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('static/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/static/css/scrolling-nav.css" rel="stylesheet">
+    <link href="{{ asset('/static/css/scrolling-nav.css') }}" rel="stylesheet">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script data-ad-client="ca-pub-5517920503384931" async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -48,10 +48,10 @@
                 </li>
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">登入</a>
+                        <a class="nav-link js-scroll-trigger" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">註冊</a>
+                        <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
                 @else
                     <li class="nav-item">
@@ -74,7 +74,7 @@
     </div>
 </nav>
 
-<header class="bg-primary text-white">
+<header class="bg-primary text-white" style="margin-bottom: 20px;">
     <div class="container text-center">
         <h1>NN's Notify Bot page</h1>
         <p class="lead">Boss Notify Bot with serverless</p>
@@ -106,14 +106,14 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
-<script src="/static/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('/static/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('/static/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 <!-- Plugin JavaScript -->
-<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="{{ asset('/static/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
 <!-- Custom JavaScript for this theme -->
-<script src="/static/js/scrolling-nav.js"></script>
+<script src="{{ asset('/static/js/scrolling-nav.js') }}"></script>
 
 </body>
 

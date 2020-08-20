@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <p class="text-danger">
+                此部份請先確定有報線意願再進行註冊，謝謝
+            </p>
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 

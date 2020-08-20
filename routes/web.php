@@ -30,3 +30,7 @@ Route::get('/channel-status', function () {
 Route::get('/get-token', function () {
     return view('get-token');
 })->name('get-token');
+
+Route::get('/test', function () {
+    return trans('Login');
+});
