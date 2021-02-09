@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use \Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +17,7 @@ Auth::routes();
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/home', function () {
     return view('home');
@@ -38,28 +37,31 @@ Route::get('/test', function () {
 
 Route::any('/oauth2/discord', function () {
     return Socialite::driver('discord')->redirect();
-});
+})->name('oauth2.discord');
 
-Route::any('/callback', function () {
+Route::any('/discord/callback', function () {
 
     /** @var SocialiteProviders\Discord\Provider $driver */
     $driver = Socialite::driver('discord');
-    $user = $driver->stateless()->user();
-    $token = $user->token;
-    $refreshToken = $user->refreshToken;
-    $expiresIn = $user->expiresIn;
+    $discord = $driver->user();
 
+    /** @var App\User $user */
+    $user = App\User::query()->where(['oauth_provider' => 'discord', 'email' => $discord->getEmail()])->first();
 
-//    var_dump([$user['username'], $token]);
-});
+    if (is_null($user)) {
 
-Route::any('/user', function (Request $request) {
-    $token = $request->get('token');
-    /** @var SocialiteProviders\Discord\Provider $driver */
-    $driver = Socialite::driver('discord');
-    $user = $driver->userFromToken($token);
+        $token = is_null($discord->getEmail()) ? sha1($discord->getEmail()) : sha1($discord->getNickname());
 
-//    var_dump($user);
-//
-//    var_dump($user['username']);
+        $user = App\User::create([
+            'name' => $discord->getNickname(),
+            'email' => $discord->getEmail(),
+            'password' => $discord->token,
+            'token' => $token,
+            'oauth_provider' => 'discord'
+        ]);
+    }
+
+    Auth::login($user, true);
+
+    return redirect()->route('home');
 });
