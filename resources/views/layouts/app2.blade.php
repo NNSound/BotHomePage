@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('/static/css/scrolling-nav.css') }}" rel="stylesheet">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src='https://kit.fontawesome.com/e424551de5.js'></script>
     <script data-ad-client="ca-pub-5517920503384931" async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
@@ -34,7 +34,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item" style="display: none;">
+                <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ route('channel-status', ['channel' => 'Alissa']) }}">Alissa
                         在線情況</a>
                 </li>
@@ -42,7 +42,7 @@
                     <a class="nav-link js-scroll-trigger"
                        href="{{ route('channel-status', ['channel' => 'Bebhinn']) }}">Bebhinn 在線情況</a>
                 </li>
-                <li class="nav-item" style="display: none;">
+                <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="{{ route('channel-status', ['channel' => 'Nao']) }}">Nao
                         在線情況</a>
                 </li>
@@ -54,6 +54,10 @@
                         <a class="nav-link js-scroll-trigger" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
                 @else
+
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ route('oauth2.discord') }}" title="Discord">同步 Discord</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ route('get-token') }}">取得報縣token</a>
                     </li>

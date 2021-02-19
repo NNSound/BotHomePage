@@ -36,6 +36,8 @@ Route::get('/test', function () {
 });
 
 Route::any('/oauth2/discord', function () {
+    Session::put('uid', Auth::id());
+
     return Socialite::driver('discord')->redirect();
 })->name('oauth2.discord');
 
@@ -45,8 +47,9 @@ Route::any('/discord/callback', function () {
     $driver = Socialite::driver('discord');
     $discord = $driver->user();
 
+    $uid = Session::get('uid');
     /** @var App\User $user */
-    $user = App\User::query()->where(['oauth_provider' => 'discord', 'email' => $discord->getEmail()])->first();
+    $user = App\User::query()->where(['id' => $uid])->first();
 
     if (is_null($user)) {
 
@@ -57,11 +60,18 @@ Route::any('/discord/callback', function () {
             'email' => $discord->getEmail(),
             'password' => $discord->token,
             'token' => $token,
-            'oauth_provider' => 'discord'
+            'oauth_provider' => 'discord',
+            'oauth_provider_id' => $discord->id,
+        ]);
+
+        Auth::login($user, true);
+    } else {
+        App\User::query()->where(['id' => $uid])->update([
+            'oauth_provider' => 'discord',
+            'oauth_provider_id' => (string) $discord->id,
         ]);
     }
-
-    Auth::login($user, true);
+    Session::forget('uid');
 
     return redirect()->route('home');
 });
