@@ -28,6 +28,9 @@ Route::get('/channel-status', function () {
 })->name('channel-status');
 
 Route::get('/get-token', function () {
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
     return view('get-token');
 })->name('get-token');
 
