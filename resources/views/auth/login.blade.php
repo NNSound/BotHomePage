@@ -64,6 +64,25 @@
                                 @endif
                             </div>
                         </div>
+
+                        <hr>
+
+                        <div class="row kpx_row-sm-offset-3 kpx_socialButtons">
+
+                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                <a href="{{ route('oauth2.discord') }}" class="btn btn-lg btn-block kpx_btn-discord" data-toggle="tooltip" data-placement="top"
+                                   title="Discord">
+                                    <i class="fab fa-discord" style="font-size:48px; color:#2C2F33" aria-hidden="true" ></i>
+                                    <span class="hidden-xs"></span>
+                                </a>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4">
+
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4">
+                            </div>
+                        </div><br>
+
                     </form>
                 </div>
             </div>
