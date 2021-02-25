@@ -1,0 +1,19 @@
+#canvas {
+    background-image: url("https://storage.googleapis.com/www.gamescenters.online/magic_bg.png");
+    background-repeat: no-repeat;
+    /*   background-size: 1024px 1024px; */
+  }
+  
+  .row {
+    margin: 4px;
+  }
+  
+  [draggable="true"] {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  
+  /* canvas { border: 1px solid black; } */
+  

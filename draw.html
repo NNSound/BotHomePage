@@ -1,0 +1,138 @@
+<html>
+
+<head>
+    <title>魔法陣</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="./draw.css">
+    <link href="static/css/scrolling-nav.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e424551de5.js" crossorigin="anonymous"></script>
+    <script data-ad-client="ca-pub-5517920503384931" async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+</head>
+
+<body id="page-top">
+
+    
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="./index.html">Home Page</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="./draw.html">魔法陣</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=Alissa">Alissa 在線情況</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=Bebhinn">Bebhinn 在線情況</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="./channel-status.html?channel=Nao">Nao 在線情況</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+    <div class="container" style="margin-top: 120px;">
+        <div class="row">
+            <canvas id="canvas" width="512" height="512">
+
+            </canvas>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>線條</p>
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="start_x" class="sr-only">start x</label>
+                        <input type="text" class="form-control" id="start_x" placeholder="start x">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="start_y" class="sr-only">start y</label>
+                        <input type="text" class="form-control" id="start_y" placeholder="start y">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="end_x" class="sr-only">end x</label>
+                        <input type="text" class="form-control" id="end_x" placeholder="end x">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="end_y" class="sr-only">end y</label>
+                        <input type="text" class="form-control" id="end_y" placeholder="end y">
+                    </div>
+                    <button type="button" class="btn btn-outline-primary mx-sm-3 mb-2" onclick="lineForm()">新增</button>
+                </form>
+
+                <p>圓形</p>
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="pos_x" class="sr-only">start x</label>
+                        <input type="text" class="form-control" id="pos_x" placeholder="pos x">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="pos_y" class="sr-only">start y</label>
+                        <input type="text" class="form-control" id="pos_y" placeholder="pos x">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="scale" class="sr-only">end y</label>
+                        <input type="text" class="form-control" id="scale" placeholder="縮放">
+                    </div>
+                    <button type="button" class="btn btn-outline-primary mx-sm-3 mb-2" onclick="circleForm()">新增</button>
+                </form>
+                
+                <p>正方形</p>
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="pos_x2" class="sr-only">start x</label>
+                        <input type="text" class="form-control" id="pos_x2" placeholder="pos x">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="pos_y2" class="sr-only">start y</label>
+                        <input type="text" class="form-control" id="pos_y2" placeholder="pos x">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="scale2" class="sr-only">end y</label>
+                        <input type="text" class="form-control" id="scale2" placeholder="縮放">
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="rot" class="sr-only">start y</label>
+                        <input type="text" class="form-control" id="rot" placeholder="角度">
+                    </div>
+                    <button type="button" class="btn btn-outline-primary mx-sm-3 mb-2" onclick="squareForm()">新增</button>
+                </form>
+
+            </div>
+            <div class="col-md-6">
+                <ul id="items-list" class="list-group">
+
+                </ul>
+                <button type="button" class="btn btn-outline-success mb-2 mt-2 float-right" onclick="output()">輸出</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <textarea class="form-control" id="output" rows=10 disabled>
+
+                </textarea>
+            </div>
+        </div>
+
+</body>
+<script src="./draw.js"></script>
+
+</html>
