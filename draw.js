@@ -47,6 +47,12 @@ function baseLine() {
     line(0, -200, 0, 200)
     line(-200, 0, 200, 0)
 
+    ctx.fillText("(0, 0)", 0, 0);
+    ctx.fillText("(0, 50, 0.43)", 0, 50);
+    ctx.fillText("(0, 100, 0.89)", 0, 100);
+    ctx.fillText("(0, 150, 1.29)", 0, 150);
+    ctx.fillText("(0, 200, 1.69)", 0, 200);
+
     ctx.beginPath();
     ctx.arc(0, 0, 50, 0, 2 * Math.PI);
     ctx.arc(0, 0, 100, 0, 2 * Math.PI);
