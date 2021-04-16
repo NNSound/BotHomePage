@@ -319,7 +319,7 @@
 
         function init() {
             // Connect to Web Socket
-            ws = new WebSocket("wss://mabi-websocket.herokuapp.com/channelStatus");
+            ws = new WebSocket("wss://mabi-ws.gamescenters.online/channelStatus");
             // Set event handlers.
             ws.onopen = function (e) {
                 $(".connect-message").text('Connect')
